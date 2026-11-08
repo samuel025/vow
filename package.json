@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@mysten-incubation/memwal": "^0.1.13",
+    "@mysten/seal": "^1.5.4",
+    "@mysten/sui": "^2.39.1",
+    "@mysten/wallet-standard": "^0.21.38",
     "next": "16.4.5",
     "react": "19.3.0",
     "react-dom": "19.3.0"
