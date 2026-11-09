@@ -6,7 +6,7 @@ import { api, Btn, Sticker, useAct, useToast } from "../../ui";
 import { WalletChip, useMe } from "../../wallet";
 
 const CHEERS = ["👏", "🔥", "💪", "🎉", "🫶"];
-const CHIP: Record<string, string> = { kept: "#55db9c", missed: "#fb4903" };
+const CHIP: Record<string, string> = { kept: "#55db9c", missed: "#e8412c" };
 
 export default function Profile() {
   const { handle } = useParams<{ handle: string }>();
@@ -34,7 +34,7 @@ export default function Profile() {
           {me && <WalletChip me={me} onLogout={() => { refresh(); load(); }} />}
         </div>
       </nav>
-      <header style={{ background: "#ffd731" }}>
+      <header style={{ background: "#ffc2d6" }}>
         <div className="mx-auto max-w-[900px] px-4 py-10 sm:px-8">
           <h1 className="display text-[clamp(48px,10vw,110px)] break-all">@{d.handle}</h1>
           <p className="mt-3 text-xl font-bold">Level {t.level} · {t.title} · {t.xp} XP</p>
@@ -50,7 +50,7 @@ export default function Profile() {
 
       <main className="mx-auto max-w-[900px] space-y-10 px-4 py-10 sm:px-8">
         {d.you && (
-          <section className="card" style={{ background: "#dceeff" }}>
+          <section className="card" style={{ background: "#ffe0cc" }}>
             <h2 className="display text-3xl">You vs @{d.handle}</h2>
             <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm font-bold">
               <div /><div>YOU</div><div>@{d.handle}</div>
@@ -71,7 +71,7 @@ export default function Profile() {
                   <div className="text-sm">🔥 streak {v.streak.current} · best {v.streak.best} · {v.streak.kept}/{v.streak.total} kept</div>
                   <div className="mt-3 flex gap-1" aria-label="last windows">
                     {v.history.length === 0 ? <span className="text-xs opacity-60">no windows yet</span> : v.history.map((h: any, j: number) => (
-                      <span key={j} title={h.frozen ? "frozen" : h.result} className="h-5 w-5 rounded-full border border-black" style={{ background: h.frozen ? "#dceeff" : CHIP[h.result] ?? "#ccc" }} />))}
+                      <span key={j} title={h.frozen ? "frozen" : h.result} className="h-5 w-5 rounded-full border border-ink" style={{ background: h.frozen ? "#ffe0cc" : CHIP[h.result] ?? "#e8dcc8" }} />))}
                   </div>
                 </li>))}
             </ul>)}
@@ -85,11 +85,11 @@ export default function Profile() {
         </section>
 
         {!d.isMe && (
-          <section className="card" style={{ background: "#e9ccff" }}>
+          <section className="card" style={{ background: "#d4efd9" }}>
             <h2 className="display text-4xl">Cheer them on</h2>
             {!d.signedIn ? <p className="mt-3 text-sm">Connect a wallet on the <Link className="underline" href="/people">Squad page</Link> to send a cheer.</p> : (
               <div className="mt-4 space-y-3">
-                <div className="flex gap-2">{CHEERS.map((c) => <button key={c} onClick={() => setEmoji(c)} aria-pressed={emoji === c} className="pill h-12 w-12 text-2xl" style={{ background: emoji === c ? "#ffd731" : "#fff" }}>{c}</button>)}</div>
+                <div className="flex gap-2">{CHEERS.map((c) => <button key={c} onClick={() => setEmoji(c)} aria-pressed={emoji === c} className="pill h-12 w-12 text-2xl" style={{ background: emoji === c ? "#ffc2d6" : "#fff" }}>{c}</button>)}</div>
                 <input className="field" maxLength={80} placeholder="Say something nice (optional, 80 chars)" value={msg} onChange={(e) => setMsg(e.target.value)} />
                 <Btn fill busy={busy.cheer} onClick={() => act("cheer", async () => { await api("/api/social", "POST", { action: "cheer", handle: d.handle, emoji, msg }); setMsg(""); await load(); }, "Cheer sent!")}>SEND CHEER</Btn>
               </div>)}

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Bowlby_One, Inter } from "next/font/google";
+import { Fraunces, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const display = Bowlby_One({ variable: "--font-display", subsets: ["latin"], weight: "400" });
-const ui = Inter({ variable: "--font-ui", subsets: ["latin"], weight: ["500", "700"] });
+const display = Fraunces({ variable: "--font-display", subsets: ["latin"], weight: ["700", "900"], style: ["normal", "italic"] });
+const ui = DM_Sans({ variable: "--font-ui", subsets: ["latin"], weight: ["500", "700"] });
 
 export const metadata: Metadata = {
   title: "Vow",

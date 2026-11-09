@@ -44,11 +44,11 @@ export function DemoGuide({ tick, seed, busy }: { tick: () => void; seed: () => 
   };
   const go = (n: number) => { setI(n); setTimeout(() => { const t = STEPS[n].target; if (t) { const el = document.querySelector<HTMLElement>(t); if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.classList.add("tour-flash"); setTimeout(() => el.classList.remove("tour-flash"), 2800); } } }, 50); };
 
-  if (!open) return <button className="pill fixed bottom-4 right-4 z-40 px-4 py-3 text-sm" style={{ background: "#ffd731" }} onClick={() => setOpen(true)}>? DEMO GUIDE</button>;
+  if (!open) return <button className="pill fixed bottom-4 right-4 z-40 px-4 py-3 text-sm" style={{ background: "#ffc2d6" }} onClick={() => setOpen(true)}>? DEMO GUIDE</button>;
   return (
     <aside aria-label="Demo guide" className="card fixed bottom-4 left-4 right-4 z-40 bg-white sm:left-auto sm:w-[380px]" style={{ borderRadius: 28, padding: 18, boxShadow: "none" }}>
       <div className="flex items-center justify-between gap-2">
-        <span className="pill px-3 py-1 text-xs" style={{ background: "#ffd731" }}>DEMO GUIDE · {i + 1}/{STEPS.length}</span>
+        <span className="pill px-3 py-1 text-xs" style={{ background: "#ffc2d6" }}>DEMO GUIDE · {i + 1}/{STEPS.length}</span>
         <button className="text-xs font-bold underline" onClick={() => setOpen(false)}>HIDE</button>
       </div>
       <h3 className="mt-3 flex items-center gap-2 text-xl font-bold"><span className="text-2xl">{s.icon}</span>{s.title}</h3>
@@ -61,7 +61,7 @@ export function DemoGuide({ tick, seed, busy }: { tick: () => void; seed: () => 
       </div>
       <div className="mt-4 flex items-center justify-between gap-2">
         <Btn disabled={i === 0} onClick={() => go(i - 1)}>← BACK</Btn>
-        <div className="flex gap-1" aria-hidden>{STEPS.map((_, n) => <span key={n} className="h-2 w-2 rounded-full border border-black" style={{ background: n === i ? "#000" : n < i ? "#55db9c" : "#fff" }} />)}</div>
+        <div className="flex gap-1" aria-hidden>{STEPS.map((_, n) => <span key={n} className="h-2 w-2 rounded-full border border-ink" style={{ background: n === i ? "#17142e" : n < i ? "#55db9c" : "#fff" }} />)}</div>
         {i < STEPS.length - 1 ? <Btn onClick={() => go(i + 1)}>NEXT →</Btn> : <Btn onClick={() => setOpen(false)}>DONE ✓</Btn>}
       </div>
     </aside>

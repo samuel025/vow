@@ -20,21 +20,21 @@ export function badgesFor(rule: HabitRule, mems: HabitMemory[], pings = 0): Badg
   const honest = mems.some((m) => m.reason && !m.reason.startsWith("rule saved") && !m.reason.startsWith("FREEZE"));
   const froze = mems.some((m) => m.reason?.startsWith("FREEZE"));
   const typed: Badge = rule.type === "quiet_hours"
-    ? { id: "night_owl", name: "Night Owl Tamed", hint: "Keep 3 quiet-hours windows", icon: "🦉", color: "#e9ccff", earned: s.kept >= 3 }
+    ? { id: "night_owl", name: "Night Owl Tamed", hint: "Keep 3 quiet-hours windows", icon: "🦉", color: "#d4efd9", earned: s.kept >= 3 }
     : rule.type === "recurring_stake"
-    ? { id: "staker", name: "Steady Staker", hint: "Keep 3 stake windows", icon: "🪙", color: "#ffd731", earned: s.kept >= 3 }
+    ? { id: "staker", name: "Steady Staker", hint: "Keep 3 stake windows", icon: "🪙", color: "#ffc2d6", earned: s.kept >= 3 }
     : rule.type === "spend_cap"
     ? { id: "capped", name: "Cap Keeper", hint: "Stay under your cap 3 times", icon: "🧢", color: "#55db9c", earned: s.kept >= 3 }
     : { id: "saver", name: "Piggy Pro", hint: "Keep 3 saving windows", icon: "🐷", color: "#55db9c", earned: s.kept >= 3 };
   return [
-    { id: "first", name: "First Win", hint: "Keep your first window", icon: "🚀", color: "#fb4903", earned: s.kept >= 1 },
-    { id: "hat", name: "Hat-trick", hint: "3 kept in a row", icon: "🎩", color: "#4da2ff", earned: s.best >= 3 },
-    { id: "fire", name: "On Fire", hint: "7 kept in a row", icon: "🔥", color: "#fb4903", earned: s.best >= 7 },
-    { id: "comeback", name: "Comeback Kid", hint: "Keep a window right after a miss", icon: "💪", color: "#ffd731", earned: comeback },
-    { id: "honest", name: "Honest Abe", hint: "Tell the coach why you missed", icon: "🗣️", color: "#e9ccff", earned: honest },
-    { id: "ice", name: "Ice Cold", hint: "Use a streak freeze", icon: "🧊", color: "#dceeff", earned: froze },
-    { id: "squad", name: "Squad Goals", hint: "Bring a buddy in on a habit", icon: "🤝", color: "#4da2ff", earned: !!rule.buddy && pings > 0 },
-    { id: "ghost", name: "Ghostbuster", hint: "Beat your previous stretch in the ghost race", icon: "👻", color: "#e9ccff", earned: g?.status === "ahead" },
+    { id: "first", name: "First Win", hint: "Keep your first window", icon: "🚀", color: "#e8412c", earned: s.kept >= 1 },
+    { id: "hat", name: "Hat-trick", hint: "3 kept in a row", icon: "🎩", color: "#7c5cff", earned: s.best >= 3 },
+    { id: "fire", name: "On Fire", hint: "7 kept in a row", icon: "🔥", color: "#e8412c", earned: s.best >= 7 },
+    { id: "comeback", name: "Comeback Kid", hint: "Keep a window right after a miss", icon: "💪", color: "#ffc2d6", earned: comeback },
+    { id: "honest", name: "Honest Abe", hint: "Tell the coach why you missed", icon: "🗣️", color: "#d4efd9", earned: honest },
+    { id: "ice", name: "Ice Cold", hint: "Use a streak freeze", icon: "🧊", color: "#ffe0cc", earned: froze },
+    { id: "squad", name: "Squad Goals", hint: "Bring a buddy in on a habit", icon: "🤝", color: "#7c5cff", earned: !!rule.buddy && pings > 0 },
+    { id: "ghost", name: "Ghostbuster", hint: "Beat your previous stretch in the ghost race", icon: "👻", color: "#d4efd9", earned: g?.status === "ahead" },
     typed,
   ];
 }

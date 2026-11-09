@@ -21,7 +21,7 @@ export const short = (a: string) => `${a.slice(0, 6)}…${a.slice(-4)}`;
 export function useToast() {
   const [toast, setToast] = useState<{ msg: string; err?: boolean } | null>(null);
   const say = (msg: string, err = false) => { setToast({ msg, err }); setTimeout(() => setToast(null), 4000); };
-  const node = toast && <div role="status" className="fixed right-4 top-14 z-50 pill px-4 py-2 text-sm" style={{ background: toast.err ? "#fb4903" : "#ffd731" }}>{toast.msg}</div>;
+  const node = toast && <div role="status" className="fixed right-4 top-14 z-50 pill px-4 py-2 text-sm" style={{ background: toast.err ? "#e8412c" : "#ffc2d6" }}>{toast.msg}</div>;
   return { say, node };
 }
 

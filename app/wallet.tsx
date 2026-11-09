@@ -51,10 +51,10 @@ export function ConnectPanel({ demoAvailable, onDone }: { demoAvailable: boolean
           <Btn key={w.name} fill busy={busy[w.name]} onClick={() => act(w.name, async () => { await signIn(w); onDone(); })}>
             {w.icon && <img src={w.icon} alt="" width={18} height={18} />}{busy[w.name] ? "WAITING FOR WALLET…" : `CONNECT ${w.name.toUpperCase()}`}
           </Btn>))}
-        {wallets.length === 0 && <p className="pill px-4 py-2 text-sm">No Sui-capable wallet extension detected. Install any wallet that supports Sui (Slush, Backpack, Suiet, Phantom, Nightly, OKX…), enable its Sui account, and refresh. Or browse as a guest below.</p>}
+        {wallets.length === 0 && <p className="rounded-2xl border border-ink bg-cream p-3 text-sm">No Sui-capable wallet extension detected. Install any wallet that supports Sui (Slush, Backpack, Suiet, Phantom, Nightly, OKX…), enable its Sui account, and refresh. Or browse as a guest below.</p>}
       </div>
       {demoAvailable && (
-        <div className="mt-5 rounded-3xl border border-black p-4" style={{ background: "#ffd731" }}>
+        <div className="mt-5 rounded-3xl border border-ink p-4" style={{ background: "#ffc2d6" }}>
           <div className="font-bold">Just looking? Try the demo</div>
           <p className="mt-1 text-xs">No wallet needed. You get your own private sandbox with sample vows on a real mainnet wallet. Click Check chain, seed history, break things. It won&apos;t affect anyone else.</p>
           <Btn fill className="mt-3" busy={busy.demo} onClick={() => act("demo", async () => { await api("/api/auth", "POST", { action: "demo" }); onDone(); })}>TRY THE DEMO</Btn>

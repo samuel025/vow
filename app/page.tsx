@@ -5,8 +5,8 @@ import { ConnectPanel, WalletChip, useMe, type Me } from "./wallet";
 
 /* ---------- helpers ---------- */
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const WASH = ["#55db9c", "#e9ccff", "#dceeff", "#ffd731"];
-const CONFETTI = ["#4da2ff", "#55db9c", "#e9ccff", "#fb4903", "#ffd731", "#5c4ade"];
+const WASH = ["#55db9c", "#d4efd9", "#ffe0cc", "#ffc2d6"];
+const CONFETTI = ["#7c5cff", "#55db9c", "#d4efd9", "#e8412c", "#ffc2d6", "#3d2bb5"];
 
 const blank = { id: "", name: "", type: "recurring_save", token: "SUI", amount: "5", destination: "", weekday: 5, quietStart: 0, quietEnd: 5, tzOffsetMinutes: 60, escalation: ["reminder", "firm"], buddyName: "", buddyChannel: "manual", buddyTarget: "", buddyAuto: false };
 
@@ -43,14 +43,21 @@ function Btn({ busy, children, fill, ...p }: { busy?: boolean; fill?: boolean } 
   );
 }
 
-/* the signature ribbon: flat tube drawn with an outline + fill + highlight (no gradients) */
+/* the signature motif: a chain ("the chain is the judge"), flat links drawn with an ink outline + colour fill */
 function Ribbon({ className = "" }: { className?: string }) {
-  const d = "M20 150 C 140 20, 260 20, 330 110 S 520 200, 640 60 S 800 -10, 880 90";
+  const cols = ["#7c5cff", "#ffc2d6", "#55db9c", "#ffc2d6", "#7c5cff"];
   return (
-    <svg viewBox="0 0 900 220" className={className} aria-hidden>
-      <path d={d} fill="none" stroke="#000" strokeWidth="64" strokeLinecap="round" />
-      <path d={d} fill="none" stroke="#4da2ff" strokeWidth="58" strokeLinecap="round" />
-      <path d={d} fill="none" stroke="#9fcdff" strokeWidth="10" strokeLinecap="round" transform="translate(0,-14)" opacity=".8" />
+    <svg viewBox="0 0 1040 150" className={className} aria-hidden style={{ transform: "rotate(-5deg)", opacity: 0.55 }}>
+      {cols.map((c, i) => (
+        <g key={i}>
+          <rect x={i * 200 + 14} y="30" width="162" height="90" rx="45" fill="none" stroke="#17142e" strokeWidth="28" />
+          <rect x={i * 200 + 14} y="30" width="162" height="90" rx="45" fill="none" stroke={c} strokeWidth="18" />
+        </g>))}
+      {cols.slice(0, 4).map((c, i) => (
+        <g key={i}>
+          <rect x={i * 200 + 164} y="36" width="52" height="78" rx="26" fill={c} stroke="#17142e" strokeWidth="5" />
+          <rect x={i * 200 + 176} y="50" width="8" height="40" rx="4" fill="#fffaf0" opacity=".7" />
+        </g>))}
     </svg>
   );
 }
@@ -144,7 +151,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
       {burst > 0 && <div key={burst} aria-hidden>{Array.from({ length: 36 }, (_, i) => (
         <span key={i} className="confetti" style={{ left: `${(i * 97) % 100}%`, background: CONFETTI[i % 6], animationDelay: `${(i % 9) * 60}ms`, transform: `rotate(${i * 40}deg)` }} />))}</div>}
       {me.demo && <DemoGuide tick={tick} seed={seed} busy={busy} />}
-      {toast && <div role="status" className="fixed right-4 top-14 z-50 pill px-4 py-2 text-sm" style={{ background: toast.err ? "#fb4903" : "#ffd731" }}>{toast.msg}</div>}
+      {toast && <div role="status" className="fixed right-4 top-14 z-50 pill px-4 py-2 text-sm" style={{ background: toast.err ? "#e8412c" : "#ffc2d6" }}>{toast.msg}</div>}
 
       <div className="marquee"><div>{Array(8).fill("The chain is the judge · Memory shapes the nudge · Keep your vow · ").join("")}</div></div>
 
@@ -166,11 +173,11 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
       </nav>
 
       {/* HERO */}
-      <header className="relative overflow-hidden" style={{ background: "#dceeff" }}>
+      <header className="relative overflow-hidden" style={{ background: "#ffe0cc" }}>
         <Ribbon className="pointer-events-none absolute -left-10 top-6 w-[130%] max-w-none sm:top-0" />
         <div className="relative mx-auto grid max-w-[1440px] gap-8 px-4 pb-14 pt-10 sm:px-8 lg:grid-cols-[1fr_380px]">
           <div>
-            <h1 className="display text-[clamp(110px,22vw,300px)]">Vow</h1>
+            <h1 className="display text-[clamp(110px,22vw,300px)]" style={{ textShadow: "6px 6px 0 var(--cream)" }}>Vow</h1>
             <p className="card mt-6 max-w-md bg-white !p-4 text-2xl font-bold leading-tight" style={{ borderRadius: 24 }}>Make a money vow. The chain proves it. Your coach remembers.</p>
             <ol className="mt-4 flex flex-wrap gap-2 text-xs font-bold tracking-wider">
               {["1 · MAKE A VOW", "2 · CHECK THE CHAIN", "3 · COLLECT STICKERS"].map((s) => <li key={s} className="pill px-3 py-2">{s}</li>)}
@@ -181,13 +188,13 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
           <div className="card self-end" style={{ background: "#fff", borderRadius: 40 }}>
             {!t ? <div className="sk h-28" /> : <>
               <div className="flex items-center gap-3">
-                <Sticker icon="★" color="#ffd731" size={64} rot={-8} className="pop" />
+                <Sticker icon="★" color="#ffc2d6" size={64} rot={-8} className="pop" />
                 <div>
                   <div className="text-xs font-bold tracking-widest opacity-60">LEVEL {t.level}</div>
                   <div className="display text-3xl" style={{ lineHeight: 1 }}>{t.title}</div>
                 </div>
               </div>
-              <div className="mt-4 h-5 overflow-hidden rounded-full border border-black" role="progressbar" aria-valuenow={t.into} aria-valuemax={t.span}>
+              <div className="mt-4 h-5 overflow-hidden rounded-full border border-ink" role="progressbar" aria-valuenow={t.into} aria-valuemax={t.span}>
                 <div className="h-full bg-blue transition-all" style={{ width: `${Math.max(4, (t.into / t.span) * 100)}%`, borderRight: "1px solid #000" }} />
               </div>
               <div className="mt-2 flex justify-between text-xs font-bold"><span>{t.xp} XP</span><span>{t.span - t.into} XP to level {t.level + 1}</span></div>
@@ -195,8 +202,8 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
             </>}
           </div>
         </div>
-        <Sticker icon="🚀" color="#fb4903" size={72} rot={14} className="absolute right-[8%] top-10 hidden lg:flex" />
-        <Sticker icon="🪙" color="#ffd731" size={60} rot={-12} className="absolute right-[34%] top-24 hidden lg:flex" />
+        <Sticker icon="🚀" color="#e8412c" size={72} rot={14} className="absolute right-[8%] top-10 hidden lg:flex" />
+        <Sticker icon="🪙" color="#ffc2d6" size={60} rot={-12} className="absolute right-[34%] top-24 hidden lg:flex" />
       </header>
 
       {/* HABITS */}
@@ -208,11 +215,11 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
               <Btn busy={busy.seed} onClick={seed}>{busy.seed ? "SEEDING…" : "SEED DEMO HISTORY"}</Btn>
             </div>
           </div>
-          {run?.error && <p className="card text-sm" style={{ background: "#ffd731" }}>Couldn&apos;t reach the chain, so windows are marked <b>unverified</b>, not missed. ({run.error})</p>}
+          {run?.error && <p className="card text-sm" style={{ background: "#ffc2d6" }}>Couldn&apos;t reach the chain, so windows are marked <b>unverified</b>, not missed. ({run.error})</p>}
 
           {!ov && <div className="grid gap-4 md:grid-cols-2"><div className="sk h-72" /><div className="sk h-72" /></div>}
           {ov && rules.length === 0 && (
-            <div className="card text-center" style={{ background: "#e9ccff" }}>
+            <div className="card text-center" style={{ background: "#d4efd9" }}>
               <Sticker icon="🎯" color="#fff" size={72} rot={-6} />
               <p className="display mt-4 text-4xl" style={{ lineHeight: 1 }}>No vows yet</p>
               <p className="mt-2">Pick a template below to make your first one. It takes ten seconds.</p>
@@ -242,8 +249,8 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                     <div className="flex gap-2">
                       {slots.map((h: any, i: number) => (
                         <span key={i} title={h ? `${h.window}: ${h.frozen ? "frozen" : h.result}${h.simulated ? " (simulated)" : ""}` : "no data yet"}
-                          className="grid h-9 w-9 place-items-center rounded-full border border-black text-sm font-bold"
-                          style={{ background: !h ? "transparent" : h.frozen ? "#dceeff" : h.result === "kept" ? "#4da2ff" : "#fb4903", borderStyle: h ? "solid" : "dashed" }}>
+                          className="grid h-9 w-9 place-items-center rounded-full border border-ink text-sm font-bold"
+                          style={{ background: !h ? "transparent" : h.frozen ? "#ffe0cc" : h.result === "kept" ? "#7c5cff" : "#e8412c", borderStyle: h ? "solid" : "dashed" }}>
                           {!h ? "" : h.frozen ? "🧊" : h.result === "kept" ? "✓" : "✕"}
                         </span>))}
                     </div>
@@ -251,17 +258,17 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
 
                   {/* latest check */}
                   {x ? (
-                    <div className="rounded-2xl border border-black bg-white p-3 text-sm">
+                    <div className="rounded-2xl border border-ink bg-white p-3 text-sm">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="pill px-3 py-1 text-xs" style={{ background: x.result.result === "kept" ? "#000" : x.result.result === "missed" ? "#fb4903" : "#fff", color: x.result.result === "kept" ? "#fff" : "#000", borderStyle: x.result.result === "unverified" ? "dashed" : "solid" }}>
+                        <span className="pill px-3 py-1 text-xs" style={{ background: x.result.result === "kept" ? "#17142e" : x.result.result === "missed" ? "#e8412c" : "#fff", color: x.result.result === "kept" ? "#fff" : "#17142e", borderStyle: x.result.result === "unverified" ? "dashed" : "solid" }}>
                           {x.result.result === "kept" ? "KEPT ✓" : x.result.result === "missed" ? "MISSED" : "COULDN'T VERIFY"}
                         </span>
                         <span className="opacity-70">window {x.window.label}</span>
                       </div>
                       {x.result.evidence.length > 0 && <div className="mt-2 text-xs">Proof on chain: {x.result.evidence.map((d: string) => <a key={d} className="mr-2 underline" target="_blank" href={`https://suiscan.xyz/mainnet/tx/${d}`}>{d.slice(0, 8)}…</a>)}</div>}
                       <div className="mt-3 flex items-start gap-2">
-                        <Sticker icon="🧠" color="#e9ccff" size={36} />
-                        <div data-tour={idx === 0 ? "why" : undefined} className="rounded-2xl border border-black px-3 py-2">
+                        <Sticker icon="🧠" color="#d4efd9" size={36} />
+                        <div data-tour={idx === 0 ? "why" : undefined} className="rounded-2xl border border-ink px-3 py-2">
                           <span className="italic">“{x.text}”</span>
                           <details className="mt-1 text-xs"><summary className="cursor-pointer font-bold">Why this nudge?</summary>
                             <p className="mt-1">{x.nudge.reason}</p><p className="opacity-70">Tone: {x.tone.why}</p>
@@ -276,30 +283,30 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                         </div>)}
                     </div>
                   ) : (
-                    <p className="rounded-2xl border border-dashed border-black bg-white/60 p-3 text-sm">
+                    <p className="rounded-2xl border border-dashed border-ink bg-white/60 p-3 text-sm">
                       {busy.tick ? "Reading the chain…" : <>Not checked yet. Hit <b>CHECK CHAIN</b> to see if you kept this one.</>}
                     </p>)}
 
                   {/* quest */}
-                  <div className="flex items-center gap-3 rounded-2xl border border-black bg-white p-3">
-                    <Sticker icon="🎯" color="#ffd731" size={44} rot={-6} />
+                  <div className="flex items-center gap-3 rounded-2xl border border-ink bg-white p-3">
+                    <Sticker icon="🎯" color="#ffc2d6" size={44} rot={-6} />
                     <div className="text-sm"><div className="font-bold">Quest: {o.quest.title}</div><div className="opacity-70">{o.quest.detail}</div></div>
                     <span className="pill ml-auto whitespace-nowrap px-2 py-1 text-[11px]">+{o.quest.reward} XP</span>
                   </div>
 
                   {/* ghost race */}
                   {o.ghost ? (
-                    <div data-tour={idx === 0 ? "ghost" : undefined} className="rounded-2xl border border-black bg-white p-3 text-sm" key={`${r.id}-${race}`}>
+                    <div data-tour={idx === 0 ? "ghost" : undefined} className="rounded-2xl border border-ink bg-white p-3 text-sm" key={`${r.id}-${race}`}>
                       <div className="flex items-center justify-between gap-2">
                         <div className="font-bold">👻 Ghost race <span className="text-xs font-medium opacity-60">last {o.ghost.n} windows vs the {o.ghost.n} before</span></div>
                         <button className="underline text-xs font-bold" onClick={() => setRace((v) => v + 1)}>REPLAY</button>
                       </div>
-                      {([["YOU", o.ghost.me, "#4da2ff", o.ghost.meKept], ["GHOST", o.ghost.ghost, "#e9ccff", o.ghost.ghostKept]] as const).map(([who, cells, color, kept]) => (
+                      {([["YOU", o.ghost.me, "#7c5cff", o.ghost.meKept], ["GHOST", o.ghost.ghost, "#d4efd9", o.ghost.ghostKept]] as const).map(([who, cells, color, kept]) => (
                         <div key={who} className="mt-2 flex items-center gap-2">
                           <span className="w-12 text-[11px] font-bold tracking-widest">{who}</span>
                           <div className="flex flex-1 gap-1">
                             {cells.map((c: any, i: number) => (
-                              <span key={i} title={`${c.window}: ${c.ok ? "kept" : "missed"}`} className="pop h-6 flex-1 rounded-full border border-black"
+                              <span key={i} title={`${c.window}: ${c.ok ? "kept" : "missed"}`} className="pop h-6 flex-1 rounded-full border border-ink"
                                 style={{ background: c.ok ? color : "#fff", opacity: who === "GHOST" ? 0.75 : 1, animationDelay: `${i * 140 + (who === "GHOST" ? 70 : 0)}ms`, animationFillMode: "backwards" }} />))}
                           </div>
                           <span className="w-9 text-right text-xs font-bold">{kept}/{o.ghost.n}</span>
@@ -309,7 +316,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                       </p>
                     </div>
                   ) : (
-                    <p className="rounded-2xl border border-dashed border-black bg-white/60 p-3 text-xs">👻 <b>Ghost race unlocks after 6 windows.</b> Your past self becomes the opponent.</p>
+                    <p className="rounded-2xl border border-dashed border-ink bg-white/60 p-3 text-xs">👻 <b>Ghost race unlocks after 6 windows.</b> Your past self becomes the opponent.</p>
                   )}
 
                   {/* freeze */}
@@ -320,10 +327,10 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                   </div>
 
                   {/* buddy */}
-                  <div data-tour={idx === 0 ? "buddy" : undefined} className="rounded-2xl border border-black bg-white p-3 text-sm">
+                  <div data-tour={idx === 0 ? "buddy" : undefined} className="rounded-2xl border border-ink bg-white p-3 text-sm">
                     {r.buddy ? (<>
                       <div className="flex flex-wrap items-center gap-2">
-                        <Sticker icon="🤝" color="#4da2ff" size={36} />
+                        <Sticker icon="🤝" color="#7c5cff" size={36} />
                         <div className="font-bold">{r.buddy.name}<span className="ml-2 text-xs font-medium opacity-70">{r.buddy.channel === "manual" ? "share manually" : r.buddy.channel} · {r.buddy.auto ? "auto-pings on a miss" : "only when you ask"}</span></div>
                       </div>
                       <div className="mt-2 flex flex-wrap gap-2">
@@ -340,7 +347,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                         onChange={(e) => setInput({ ...input, [`ask:${r.id}`]: e.target.value })} onKeyDown={(e) => e.key === "Enter" && askReal(r.id)} />
                       <Btn busy={busy[`ask:${r.id}`]} onClick={() => askReal(r.id)}>ASK</Btn>
                     </div>
-                    {chat[r.id] && <div className="mt-2 rounded-2xl border border-black bg-white p-3 text-sm">{chat[r.id].mode === "llm" && <span className="pill mb-1 mr-2 inline-block px-2 py-0.5 text-[10px]" style={{ background: "#e9ccff" }}>✨ AI · FROM YOUR RECORDS</span>}{chat[r.id].answer}
+                    {chat[r.id] && <div className="mt-2 rounded-2xl border border-ink bg-white p-3 text-sm">{chat[r.id].mode === "llm" && <span className="pill mb-1 mr-2 inline-block px-2 py-0.5 text-[10px]" style={{ background: "#d4efd9" }}>✨ AI · FROM YOUR RECORDS</span>}{chat[r.id].answer}
                       <ul className="ml-4 list-disc text-xs opacity-70">{chat[r.id].cited.map((m: any, i: number) => <li key={i}>{m.window}: {m.result}</li>)}</ul></div>}
                   </div>
 
@@ -355,7 +362,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
       </section>
 
       {/* STICKER ALBUM */}
-      <section id="album" style={{ background: "#e9ccff" }}>
+      <section id="album" style={{ background: "#d4efd9" }}>
         <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-2">
             <h2 className="display text-6xl">Sticker album</h2>
@@ -364,7 +371,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
           <p className="mt-2 max-w-xl text-sm">Every sticker is earned from real, chain-verified behaviour. Grey ones are still up for grabs.</p>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
             {(album.length ? album : Array(7).fill(null)).map((b: any, i: number) => b ? (
-              <div key={b.id} className="flex flex-col items-center gap-2 rounded-3xl border border-black bg-white p-4 text-center">
+              <div key={b.id} className="flex flex-col items-center gap-2 rounded-3xl border border-ink bg-white p-4 text-center">
                 <Sticker icon={b.icon} color={b.color} size={72} rot={(i % 2 ? 1 : -1) * 6} className={b.earned ? "pop" : "locked"} />
                 <div className="text-sm font-bold">{b.name}</div>
                 <div className="text-xs opacity-70">{b.earned ? "Collected!" : b.hint}</div>
@@ -374,7 +381,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
       </section>
 
       {/* NEW VOW */}
-      <section id="new" style={{ background: "#ccc" }}>
+      <section id="new" style={{ background: "#e8dcc8" }}>
         <div className="mx-auto grid max-w-[1440px] gap-8 px-4 py-12 sm:px-8 lg:grid-cols-[1fr_1fr]">
           <div>
             <h2 className="display text-6xl">{form.id ? "Edit vow" : "Make a vow"}</h2>
@@ -419,7 +426,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                 <label className="block text-xs font-bold tracking-widest">FROM (HOUR)<input className="field mt-1 font-medium" type="number" min={0} max={23} {...f("quietStart")} /></label>
                 <label className="block text-xs font-bold tracking-widest">TO (HOUR)<input className="field mt-1 font-medium" type="number" min={1} max={24} {...f("quietEnd")} /></label>
               </div>)}
-            <fieldset className="rounded-2xl border border-black p-3" style={{ background: "#dceeff" }}>
+            <fieldset className="rounded-2xl border border-ink p-3" style={{ background: "#ffe0cc" }}>
               <legend className="px-2 text-xs font-bold tracking-widest">🤝 ACCOUNTABILITY BUDDY (OPTIONAL)</legend>
               <div className="grid grid-cols-2 gap-3">
                 <label className="block text-xs font-bold tracking-widest">BUDDY&apos;S NAME<input className="field mt-1 font-medium" placeholder="e.g. Ada" {...f("buddyName")} /></label>
@@ -443,7 +450,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
       </section>
 
       {/* BUDDY INBOX */}
-      <section id="inbox" style={{ background: "#ffd731" }}>
+      <section id="inbox" style={{ background: "#ffc2d6" }}>
         <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-8">
           <h2 className="display text-6xl">Buddy inbox</h2>
           <p className="mt-2 max-w-xl text-sm">Everything sent (or previewed) to your buddies, word for word, so nothing leaves your control unseen.</p>
@@ -452,7 +459,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
             {inbox.map((p) => (
               <div key={p.id} className="card space-y-2 bg-white !p-4" style={{ borderRadius: 20 }}>
                 <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
-                  <span className="pill px-3 py-1" style={{ background: p.status === "sent" ? "#000" : p.status === "failed" ? "#fb4903" : "#fff", color: p.status === "sent" ? "#fff" : "#000", borderStyle: p.status === "preview" ? "dashed" : "solid" }}>{p.status.toUpperCase()}</span>
+                  <span className="pill px-3 py-1" style={{ background: p.status === "sent" ? "#17142e" : p.status === "failed" ? "#e8412c" : "#fff", color: p.status === "sent" ? "#fff" : "#17142e", borderStyle: p.status === "preview" ? "dashed" : "solid" }}>{p.status.toUpperCase()}</span>
                   <span>to {p.buddy}</span><span className="opacity-60">· {p.kind === "miss" ? "miss alert" : p.kind === "ask" ? "check-in request" : "intro"} · {p.ruleName}</span>
                 </div>
                 <p className="text-sm">“{p.text}”</p>
@@ -464,7 +471,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
         </div>
       </section>
 
-      <footer className="bg-black px-4 py-6 text-center text-xs font-bold tracking-widest text-white">
+      <footer className="bg-ink px-4 py-6 text-center text-xs font-bold tracking-widest text-cream">
         VERIFIED ON SUI VIA TATUM · REMEMBERED IN WALRUS MEMORY · <a className="underline" href="/proof">SEE THE PROOF</a>
       </footer>
     </>
@@ -479,11 +486,11 @@ export default function Home() {
   return (
     <>
       <div className="marquee"><div>{Array(8).fill("The chain is the judge · Memory shapes the nudge · Keep your vow · ").join("")}</div></div>
-      <header className="relative overflow-hidden" style={{ background: "#dceeff" }}>
+      <header className="relative overflow-hidden" style={{ background: "#ffe0cc" }}>
         <Ribbon className="pointer-events-none absolute -left-10 top-6 w-[130%] max-w-none sm:top-0" />
         <div className="relative mx-auto grid max-w-[1100px] gap-8 px-4 pb-16 pt-12 sm:px-8 lg:grid-cols-[1fr_460px]">
           <div>
-            <h1 className="display text-[clamp(110px,22vw,260px)]">Vow</h1>
+            <h1 className="display text-[clamp(110px,22vw,260px)]" style={{ textShadow: "6px 6px 0 var(--cream)" }}>Vow</h1>
             <p className="card mt-6 max-w-md bg-white !p-4 text-2xl font-bold leading-tight" style={{ borderRadius: 24 }}>Make a money vow. The chain proves it. Your coach remembers.</p>
             <ul className="mt-4 flex flex-wrap gap-2 text-xs font-bold tracking-wider">
               {["READ-ONLY · NEVER MOVES FUNDS", "NO SELF-REPORTING", "FRIENDS CAN CHEER YOU ON"].map((x) => <li key={x} className="pill px-3 py-2">{x}</li>)}

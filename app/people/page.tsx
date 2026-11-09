@@ -25,7 +25,7 @@ export default function People() {
           {me && <WalletChip me={me} onLogout={() => { refresh(); load(); }} />}
         </div>
       </nav>
-      <header style={{ background: "#e9ccff" }}>
+      <header style={{ background: "#d4efd9" }}>
         <div className="mx-auto max-w-[1100px] px-4 py-10 sm:px-8">
           <h1 className="display text-[clamp(64px,12vw,140px)]">Squad</h1>
           <p className="mt-4 max-w-xl text-xl font-bold">Players keep real vows, verified on-chain. Follow people, cheer them on, climb the board. Only habit names, streaks and results are ever public. Never amounts or addresses.</p>
@@ -37,7 +37,7 @@ export default function People() {
         {me && !verified && <p className="pill px-4 py-3 text-sm">You&apos;re browsing as a {me.demo ? "demo" : "guest"}. Disconnect and connect a wallet to join the community.</p>}
 
         {verified && (
-          <section className="card bg-white" style={{ background: "#dceeff" }}>
+          <section className="card bg-white" style={{ background: "#ffe0cc" }}>
             <h2 className="display text-4xl">Your player card</h2>
             <div className="mt-4 flex flex-wrap items-end gap-3">
               <label className="block text-xs font-bold tracking-wider">HANDLE
@@ -56,7 +56,7 @@ export default function People() {
           {!d ? <div className="sk mt-4 h-40" /> : d.board.length === 0 ? <p className="mt-4 text-sm opacity-70">Nobody is on the board yet. Be the first!</p> : (
             <ol className="mt-4 space-y-3">
               {d.board.map((p: any, i: number) => (
-                <li key={p.handle} className="card flex flex-wrap items-center gap-4 bg-white" style={{ borderRadius: 24, padding: 16, background: p.me ? "#ffd731" : "#fff" }}>
+                <li key={p.handle} className="card flex flex-wrap items-center gap-4 bg-white" style={{ borderRadius: 24, padding: 16, background: p.me ? "#ffc2d6" : "#fff" }}>
                   <span className="display text-4xl" style={{ width: 48 }}>{i + 1}</span>
                   <div className="min-w-[140px] flex-1">
                     <Link href={`/u/${p.handle}`} className="text-lg font-bold underline">@{p.handle}</Link>{p.me && <span className="ml-2 text-xs font-bold">(you)</span>}
