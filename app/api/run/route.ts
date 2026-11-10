@@ -3,7 +3,7 @@ import { addrOf, getUser, unauthorized } from "@/lib/auth";
 import { fetchSent } from "@/lib/tatum";
 import { verify, windowFor } from "@/lib/verifier";
 import { chooseNudge } from "@/lib/nudge";
-import { recall, remember } from "@/lib/memory";
+import { isLive, recall, remember } from "@/lib/memory";
 import { lastTone, lastNudges, setLastNudge } from "@/lib/state";
 import { chooseTone, nudgeText } from "@/lib/coach";
 import { streakInfo } from "@/lib/streak";
@@ -34,7 +34,7 @@ async function runFor(owner: string) {
     if (rule.buddy?.auto && res.result === "missed" && !alreadyPinged(rule.id, "miss", w.label)) {
       buddyPing = await ping(rule, "miss", streakInfo(past).current, w.label);
     }
-    out.push({ buddyPing, rule, window: w, result: res, nudge, tone, text: nudgeText(tone.tone, nudge.style, rule.name), streak: { current: streak.current, best: streak.best, freezes: streak.freezes } });
+    out.push({ memory: { wrote: fresh, live: isLive() }, buddyPing, rule, window: w, result: res, nudge, tone, text: nudgeText(tone.tone, nudge.style, rule.name), streak: { current: streak.current, best: streak.best, freezes: streak.freezes } });
   }
   return { error, results: out };
 }

@@ -43,6 +43,9 @@ export interface WindowResult {
   window: Window;
   result: Result;
   evidence: string[];
+  explain?: string;                                   // plain-English reason for the verdict
+  details?: { digest: string; at: string; note: string }[]; // per-transaction evidence
+  checked?: number;                                   // sent transactions inspected in the window
 }
 
 export interface HabitMemory {

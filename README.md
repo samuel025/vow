@@ -29,6 +29,25 @@ Built for the Tatum × Walrus *Total Recall* hackathon (Track 2: Smart Agents fo
 | Game layer | `lib/game.ts`, `lib/streak.ts` | Streaks, freezes, XP and levels, weekly quest, sticker album, ghost race. All derived from verified windows. |
 | Buddy pings | `lib/buddy.ts` | Opt-in accountability messages (see below). |
 
+### Exactly what each vow checks
+
+Every check judges the **last completed window**, using only transactions **sent from the connected wallet**, as returned by Tatum. Times use the timezone set on the vow. A window that starts or ends exactly on a boundary includes its start and excludes its end.
+
+| Vow | Kept when | Missed when | Unverified when |
+|---|---|---|---|
+| **Recurring save** | At least one transaction in the 7-day window ending on the chosen weekday delivers **≥ amount** of the chosen coin to the destination (the destination's balance change, not the amount you sent). Several qualifying transactions are all listed; they are not summed. | The chain was read and nothing qualified | The chain couldn't be read |
+| **Spend cap** | Sends to the destination in the window are **≤ the cap** (counted per transaction, any coin) | More sends than the cap. This can be decided even if part of the history is missing. | The chain couldn't be read and the cap wasn't already exceeded |
+| **Quiet hours** | No transaction sent from the wallet between the quiet start and end hour on that day | Any transaction sent in that span | The chain couldn't be read |
+| **Recurring stake** | A transaction in the window calls `0x3::sui_system::request_add_stake` | The chain was read and no such call | The chain couldn't be read |
+
+**What Vow cannot see.** Only this one wallet's on-chain activity on Sui mainnet. Spending from other wallets, exchanges, cards or cash is invisible, so a kept spend cap means "this wallet stayed under the cap", not "you spent less". Quiet hours measure wallet activity, not whether you were awake. Tatum serves only recent Sui history, so very old windows can't be re-checked. Failed transactions are dropped (by their on-chain effects status) and never count as evidence.
+
+### Three kinds of proof
+
+1. **Transaction evidence**: the digests, times and amounts the verifier found, each linked to Suiscan.
+2. **Verification evidence**: the rule and the plain-English reason for the verdict, shown under each check ("Checked 3 transactions…; none delivered enough").
+3. **Memory evidence**: the record written to Walrus after the window, and the records recalled for the next decision. The check card shows how many records were recalled and whether this window's record went to Walrus (background) or only the local mirror. "Why this nudge?" says whether a choice was **learned from your history** or is **exploring** because there isn't enough data, and lists the records behind it. A memory record is what Vow remembered; it never replaces the transaction evidence.
+
 ### Wallet sign-in and the squad
 
 - **Connect wallet.** Sign in with any Sui wallet (Slush etc.) via the Wallet Standard. You sign one off-chain message to prove ownership: not a transaction, no gas, no funds move. The server verifies the signature (including zkLogin accounts) and sets a signed httpOnly session cookie. Every wallet has its own vows, memory and stickers; nobody can read or change another wallet's vows.
@@ -51,7 +70,7 @@ Built for the Tatum × Walrus *Total Recall* hackathon (Track 2: Smart Agents fo
 
 Messages contain only the **habit name, the result, your streak and the window date**. Never amounts, tokens or addresses. Auto-pings are off unless you tick the box on a vow; every message (sent or previewed) appears word for word in the Buddy inbox. Channels: share manually (default, no setup), Telegram bot, or a public HTTPS Discord/Slack webhook (localhost and private hosts are rejected).
 
-Walrus Memory namespaces are public on chain and the relayer sees plaintext, so memory records hold habit names, results and styles only. Wallet addresses are already public.
+Walrus Memory namespaces are public and the relayer sees plaintext. Memory records hold the habit name, weekday, result, nudge style and tone, and any reason you type after a miss. Never amounts, tokens or addresses. The UI reminds you to keep habit names and reasons generic. Records expire at their Walrus end epoch; Vow can't delete them earlier.
 
 ## Quick start
 

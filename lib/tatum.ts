@@ -5,7 +5,7 @@ let lowest = 0; // earliest checkpoint Tatum serves; learned from its out-of-ran
 
 const Q = `query($a:SuiAddress!,$c:UInt53,$n:Int){ transactions(last:$n, filter:{sentAddress:$a, afterCheckpoint:$c}){ nodes{
   digest sender{address}
-  effects{ timestamp checkpoint{sequenceNumber} balanceChanges{ nodes{ owner{address} coinType{repr} amount } } }
+  effects{ status timestamp checkpoint{sequenceNumber} balanceChanges{ nodes{ owner{address} coinType{repr} amount } } }
   kind{ __typename ... on ProgrammableTransaction{ commands{ nodes{ __typename
     ... on MoveCallCommand{ function{ name module{ name package{ address } } } } } } } } } } }`;
 
@@ -29,7 +29,8 @@ export async function fetchSent(address: string, n = 50): Promise<Tx[]> {
   const m = msg?.match(/lowest available checkpoint is (\d+)/);
   if (m) { lowest = Number(m[1]); j = await gql(address, n); }
   if (j.errors) throw new Error(j.errors[0].message);
-  return (j.data.transactions.nodes as any[]).map((t): Tx => ({
+  // failed transactions moved nothing (beyond gas) and never count as evidence
+  return (j.data.transactions.nodes as any[]).filter((t) => t.effects?.status !== "FAILURE").map((t): Tx => ({
     digest: t.digest,
     checkpoint: String(t.effects?.checkpoint?.sequenceNumber ?? ""),
     timestampMs: Date.parse(t.effects?.timestamp),

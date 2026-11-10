@@ -265,20 +265,28 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
                         </span>
                         <span className="opacity-70">window {x.window.label}</span>
                       </div>
-                      {x.result.evidence.length > 0 && <div className="mt-2 text-xs">Proof on chain: {x.result.evidence.map((d: string) => <a key={d} className="mr-2 underline" target="_blank" href={`https://suiscan.xyz/mainnet/tx/${d}`}>{d.slice(0, 8)}…</a>)}</div>}
+                      {x.result.explain && <p className="mt-2 text-xs leading-snug"><b>Verifier:</b> {x.result.explain}</p>}
+                      {x.result.details?.length > 0 ? (
+                        <details className="mt-2 text-xs" open>
+                          <summary className="cursor-pointer font-bold">Transaction evidence ({x.result.details.length}) · open on Suiscan</summary>
+                          <ul className="mt-1 space-y-1">{x.result.details.map((d: any) => (
+                            <li key={d.digest}><a className="font-mono underline" target="_blank" rel="noreferrer" href={`https://suiscan.xyz/mainnet/tx/${d.digest}`}>{d.digest.slice(0, 10)}…</a> · {d.at} · {d.note}</li>))}</ul>
+                        </details>
+                      ) : x.result.evidence.length > 0 && <div className="mt-2 text-xs">Proof on chain: {x.result.evidence.map((d: string) => <a key={d} className="mr-2 underline" target="_blank" rel="noreferrer" href={`https://suiscan.xyz/mainnet/tx/${d}`}>{d.slice(0, 8)}…</a>)}</div>}
+                      {x.memory && <p className="mt-2 text-[11px] opacity-80">🧠 Memory: recalled {x.nudge.recalled ?? 0} record(s) for this decision · {x.memory.wrote ? (x.memory.live ? "this window's outcome is being written to Walrus (background)" : "this window's outcome saved to the local mirror only (Walrus not configured)") : "this window was already recorded, nothing new written"}</p>}
                       <div className="mt-3 flex items-start gap-2">
                         <Sticker icon="🧠" color="#d4efd9" size={36} />
                         <div data-tour={idx === 0 ? "why" : undefined} className="rounded-2xl border border-ink px-3 py-2">
                           <span className="italic">“{x.text}”</span>
                           <details className="mt-1 text-xs"><summary className="cursor-pointer font-bold">Why this nudge?</summary>
-                            <p className="mt-1">{x.nudge.reason}</p><p className="opacity-70">Tone: {x.tone.why}</p>
+                            <p className="mt-1"><span className="pill mr-1 px-2 py-0.5 text-[10px]" style={{ background: x.nudge.basis === "pattern" ? "#d4efd9" : "#ffc2d6" }}>{x.nudge.basis === "pattern" ? "LEARNED FROM YOUR HISTORY" : "EXPLORING · NOT ENOUGH DATA YET"}</span><b>Style: {x.nudge.style.replace("_", " ")}.</b> {x.nudge.reason}</p><p className="opacity-70">Tone: {x.tone.why}</p>
                             <ul className="ml-4 list-disc">{x.nudge.cited.map((m: any, i: number) => <li key={i}>{m.window}: {m.result}</li>)}</ul>
                           </details>
                         </div>
                       </div>
                       {x.result.result === "missed" && (
                         <div className="mt-3 flex gap-2">
-                          <input className="field !py-2 text-sm" placeholder="Tell your coach why (earns a sticker)" value={input[`reason:${r.id}`] ?? ""} onChange={(e) => setInput({ ...input, [`reason:${r.id}`]: e.target.value })} />
+                          <input className="field !py-2 text-sm" placeholder="Tell your coach why (stored in public memory; keep it general)" value={input[`reason:${r.id}`] ?? ""} onChange={(e) => setInput({ ...input, [`reason:${r.id}`]: e.target.value })} />
                           <Btn busy={busy[`reason:${r.id}`]} disabled={!input[`reason:${r.id}`]?.trim()} onClick={() => reason(x)}>SAVE</Btn>
                         </div>)}
                     </div>
@@ -405,6 +413,7 @@ function Dashboard({ me, onLogout }: { me: Me; onLogout: () => void }) {
 
           <div className="card space-y-3" style={{ background: "#fff", borderRadius: 40 }}>
             <label className="block text-xs font-bold tracking-widest">NAME<input className="field mt-1 font-medium" placeholder="e.g. Friday savings" {...f("name")} /></label>
+            <p className="-mt-2 text-[11px] opacity-70">The name and each week&apos;s result are written to Walrus Memory, which is public. Keep it generic. Amounts, tokens and addresses are never stored there.</p>
             <div className="grid grid-cols-2 gap-3">
               <label className="block text-xs font-bold tracking-widest">TYPE
                 <select className="field mt-1 font-medium" {...f("type")}>
