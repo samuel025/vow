@@ -6,6 +6,9 @@ Vow is a habit coach for your money. You make a vow ("send at least 5 SUI to my 
 
 Built for the Tatum × Walrus *Total Recall* hackathon (Track 2: Smart Agents for Real Life, plus Best Walrus Memory).
 
+- **Demo video:** [Watch on Loom](https://www.loom.com/share/562474d3811d4e55a30ceec0c3ba6e4d)
+- **Blog post:** [Vow: money habits judged by the chain, coached by memory](https://0xuell.online/writing/vow-habits-judged-by-the-chain)
+
 - **No self-reports.** A week is *kept* or *missed* from transaction data, with the digests as proof. If the chain can't be reached the window is *unverified*, never silently missed.
 - **No custody.** Vow only reads the chain. It never signs, holds or moves funds.
 - **Memory that changes behaviour.** The nudge style and tone are chosen from recalled records, and a "Why this nudge?" panel cites the records behind each choice.
@@ -137,7 +140,7 @@ The checker only judges the last completed window, so a transaction sent today c
 ## Known limits
 
 - **Short Tatum history.** The gateway only serves recent Sui history, so old windows can't be re-derived. Vow persists observations as it sees them; poll regularly.
-- **Sui mainnet, four rule types.** Deliberate MVP scope. Data is stored in local JSON files, so this is a demo-scale multi-user app, not a production database.
+- **Sui mainnet, four rule types.** Deliberate MVP scope.
 - **Shared Walrus delegate key.** All wallets' memory records are written with the app's one delegate key into one namespace, so record text (habit names, results) is public on Walrus.
 - **Walrus writes take seconds** and run in the background. If one fails it is logged and the record stays in the local mirror.
 - **Memory expiry.** Walrus blobs have an end epoch. The Proof page shows each one; extend before it lapses.
