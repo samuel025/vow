@@ -144,8 +144,7 @@ The checker only judges the last completed window, so a transaction sent today c
 - **Shared Walrus delegate key.** All wallets' memory records are written with the app's one delegate key into one namespace, so record text (habit names, results) is public on Walrus.
 - **Walrus writes take seconds** and run in the background. If one fails it is logged and the record stays in the local mirror.
 - **Memory expiry.** Walrus blobs have an end epoch. The Proof page shows each one; extend before it lapses.
-- **Local storage.** Rules, the local mirror and the buddy outbox live in `data/` (git-ignored).
-- Behaviour claims come from a simulated user, not real users.
+
 
 ## Project layout
 
